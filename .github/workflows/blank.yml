@@ -1,4 +1,4 @@
-name: Run Python Script and Upload File
+name: CF IP
 
 on:
   schedule:
