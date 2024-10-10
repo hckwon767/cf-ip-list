@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3  # 检出代码库内容
+        uses: actions/checkout@v4  # 检出代码库内容
 
       - name: Set up Python
         uses: actions/setup-python@v4
