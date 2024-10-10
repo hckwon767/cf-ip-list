@@ -47,7 +47,7 @@ def all_cdn():
 
 def get_cf_ip():
 	url='https://api.hostmonit.com/get_optimization_ip'
-	types=['v4','v6']
+	types=['v4']
 	ips=''
 	for x in types:
 		data={'key': 'iDetkOys'}
