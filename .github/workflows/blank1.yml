@@ -1,4 +1,4 @@
-name: Run Python Script and Upload proxyip file
+name: CF PROXY IP
 
 on:
   schedule:
