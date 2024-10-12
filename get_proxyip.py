@@ -7,13 +7,12 @@ import random
 import zipfile
 import re
 from pathlib import Path
-#
+
 headers={
 	'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36'
 }
 def get_cf_proxyip():
 	url='https://zip.baipiao.eu.org'
-	target_country = 'KR'
 	data=requests.get(url,headers=headers)
 	with open('cloudflare.zip','wb') as file:
 		file.write(data.content)
@@ -39,27 +38,25 @@ def get_cf_proxyip():
 					country=ip_info['country']
 					city=ip_info['city']
 					org=ip_info['org']
-					if country == target_country:
-                    				tls_json.append({'ip': i, 'port': ports, 'colo': f'{country}'})
+					tls_json.append({'ip':i,'port':ports,'colo':f'{country}'})
 			else:
 				for i in news_text:
 					ip_info=requests.get(f'https://ipinfo.io/{i}/json',headers=headers).json()
 					country=ip_info['country']
 					city=ip_info['city']
 					org=ip_info['org']
-					if country == target_country:
-                    				notls_json.append({'ip': i, 'port': ports, 'colo': f'{country}'})
+					notls_json.append({'ip':i,'port':ports,'colo':f'{country}'})
 			file.close()
 	del tls_json[-1]
 	del notls_json[-1]
-	file_info={'cloudflare-proxyip-kr':tls_json,'cloudflare-proxyip-notls-kr':notls_json}
+	file_info={'cloudflare-proxyip':tls_json,'cloudflare-proxyip-notls':notls_json}
 	for filename,ip_info1 in file_info.items():
 		ips=''
 		for j in ip_info1:
 			ip=j['ip']
 			port=j['port']
 			colo=j['colo']
-			ips=ips+f'{ip}#{colo}\n'
+			ips=ips+f'{ip}:{port}#{colo}\n'
 		with open(f'{filename}.txt','w') as file:
 			file.write(ips)
 			file.close()
