@@ -13,6 +13,7 @@ headers={
 }
 def get_cf_proxyip():
 	url='https://zip.baipiao.eu.org'
+	target_country = 'KR'
 	data=requests.get(url,headers=headers)
 	with open('cloudflare.zip','wb') as file:
 		file.write(data.content)
@@ -38,18 +39,20 @@ def get_cf_proxyip():
 					country=ip_info['country']
 					city=ip_info['city']
 					org=ip_info['org']
-					tls_json.append({'ip':i,'port':ports,'colo':f'{country}'})
+					if country == target_country:
+                    				tls_json.append({'ip': i, 'port': ports, 'colo': f'{country}'})
 			else:
 				for i in news_text:
 					ip_info=requests.get(f'https://ipinfo.io/{i}/json',headers=headers).json()
 					country=ip_info['country']
 					city=ip_info['city']
 					org=ip_info['org']
-					notls_json.append({'ip':i,'port':ports,'colo':f'{country}'})
+					if country == target_country:
+                    				notls_json.append({'ip': i, 'port': ports, 'colo': f'{country}'})
 			file.close()
 	del tls_json[-1]
 	del notls_json[-1]
-	file_info={'cloudflare-proxyip':tls_json,'cloudflare-proxyip-notls':notls_json}
+	file_info={'cloudflare-proxyip-kr':tls_json,'cloudflare-proxyip-notls-kr':notls_json}
 	for filename,ip_info1 in file_info.items():
 		ips=''
 		for j in ip_info1:
