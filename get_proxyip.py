@@ -59,7 +59,7 @@ def get_cf_proxyip():
 			ip=j['ip']
 			port=j['port']
 			colo=j['colo']
-			ips=ips+f'{ip}:{port}#{colo}\n'
+			ips=ips+f'{ip}#{colo}\n'
 		with open(f'{filename}.txt','w') as file:
 			file.write(ips)
 			file.close()
