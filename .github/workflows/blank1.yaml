@@ -1,0 +1,40 @@
+name: Run Python Script and Upload proxyip file
+
+on:
+  schedule:
+    # 每8个小时执行一次
+    - cron: '0 */8 * * *'
+  push:
+    branches:
+      - main  # 当推送到主分支时触发工作流
+      
+jobs:  
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3  # 检出代码库内容
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.8'  # 设置Python版本
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Run Python script
+        run: |
+          python get_proxyip.py  # 执行Python脚本
+
+      - name: Push changes
+        run: |
+          git config --global user.email "your-email@example.com"
+          git config --global user.name "github-actions[bot]"
+          git pull origin main
+          git add .
+          git commit -m "update proxyip"
+          git push --force origin main
+        env:
+          GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
