@@ -37,13 +37,9 @@ def all_cdn():
 				try:
 				    check_ip=ipaddress.IPv6Address(proxy_ip)
 				    proxy_ip=f'[{proxy_ip}]'
+					ips=ips+f'{proxy_ip}:443#{proxy_info} IPV6\n'
 				except Exception as e:
-					pass
-				if x=='v6':
-					ips=ips+f'{proxy_ip}:443#{proxy_info} ipv6\n'
-				else:
-					ips=ips+f'{proxy_ip}:443#{proxy_info}\n'
-				# ips=ips+f'{proxy_ip}:443#{proxy_info}\n'
+				ips=ips+f'{proxy_ip}:443#{proxy_info}\n'
 		print(ips)
 		with open(f'{key}-ip.txt','w') as file:
 			file.write(ips)
@@ -72,7 +68,7 @@ def get_cf_ip():
 			except Exception as e:
 				pass
 			if x=='v6':
-				ips=ips+f'{proxy_ip}:443#{proxy_info} ipv6\n'
+				ips=ips+f'{proxy_ip}:443#{proxy_info} IPV6\n'
 			else:
 				ips=ips+f'{proxy_ip}:443#{proxy_info}\n'
 		print(ips)
