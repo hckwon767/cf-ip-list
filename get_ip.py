@@ -67,7 +67,10 @@ def get_cf_ip():
 			    proxy_ip=f'[{proxy_ip}]'
 			except Exception as e:
 				pass
-			ips=ips+f'{proxy_ip}:443#{proxy_info}\n'
+			if x=='v6':
+				ips=ips+f'{proxy_ip}:443#{proxy_info} ipv6\n'
+			else:
+				ips=ips+f'{proxy_ip}:443#{proxy_info}\n'
 		print(ips)
 		is_tls=['443','80']
 		for x in is_tls:
