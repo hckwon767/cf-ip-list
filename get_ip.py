@@ -15,9 +15,9 @@ def all_cdn():
 	data={
 		# 'cloudflare':['https://monitor.gacjie.cn/api/client/get_ip_address?cdn_server=1&type=v4','https://monitor.gacjie.cn/api/client/get_ip_address?cdn_server=1&type=v6'],
 		# 'cloudfront':['https://monitor.gacjie.cn/api/client/get_ip_address?cdn_server=2&type=v4','https://monitor.gacjie.cn/api/client/get_ip_address?cdn_server=2&type=v6'],
-		'cloudflare':['https://www.182682.xyz/api/cf2dns/get_cloudflare_ip?type=v4'],
+		'cloudflare':['https://www.182682.xyz/api/cf2dns/get_cloudflare_ip?type=v4','https://www.182682.xyz/api/cf2dns/get_cloudflare_ip?type=v6'],
 		# 'cloudfront':['https://www.182682.xyz/api/cf2dns/get_cloudfront_ip?type=v4','https://www.182682.xyz/api/cf2dns/get_cloudfront_ip?type=v6'],
-		# 'gcore':['https://monitor.gacjie.cn/api/client/get_ip_address?cdn_server=3&type=v4','https://monitor.gacjie.cn/api/client/get_ip_address?cdn_server=3&type=v6'],
+		# 'gcore':['https://www.182682.xyz/api/cf2dns/get_gcore_ip?type=v4','https://www.182682.xyz/api/cf2dns/get_gcore_ip?type=v6'],
 	}
 	for key,value in data.items():
 		print(key)
