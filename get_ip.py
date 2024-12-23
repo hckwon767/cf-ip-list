@@ -1,127 +1,88 @@
 import requests
 import ipaddress
+import os
 import json
 import random
+import zipfile
+import re
 from pathlib import Path
 
-def get_ip(url, key="", data={}, headers={}, cdn_name=""):
-    """IP 정보를 주어진 URL에서 가져옵니다."""
-    ips = ""
-    try:
-        response = requests.post(url, data=json.dumps(data), headers=headers)
-        response.raise_for_status()  # 2xx 상태 코드가 아닌 경우 예외 발생
 
-        try:
-            ip_info = response.json().get("info", [])  # JSON으로 파싱 시도
-            is_json = True
-        except json.JSONDecodeError:
-            ip_info = response.text.strip().split('\n') # JSON 파싱 실패 시 문자열 분리
-            is_json = False
-            print("JSON decoding failed. Treating response as plain text.")
+headers={
+	'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36'
+}
+def all_cdn():
+	data={
+		# 'cloudflare':['https://monitor.gacjie.cn/api/client/get_ip_address?cdn_server=1&type=v4','https://monitor.gacjie.cn/api/client/get_ip_address?cdn_server=1&type=v6'],
+		# 'cloudfront':['https://monitor.gacjie.cn/api/client/get_ip_address?cdn_server=2&type=v4','https://monitor.gacjie.cn/api/client/get_ip_address?cdn_server=2&type=v6'],
+		'cloudflare':['https://www.182682.xyz/api/cf2dns/get_cloudflare_ip?type=v4','https://www.182682.xyz/api/cf2dns/get_cloudflare_ip?type=v6'],
+		# 'cloudfront':['https://www.182682.xyz/api/cf2dns/get_cloudfront_ip?type=v4','https://www.182682.xyz/api/cf2dns/get_cloudfront_ip?type=v6'],
+		# 'gcore':['https://www.182682.xyz/api/cf2dns/get_gcore_ip?type=v4','https://www.182682.xyz/api/cf2dns/get_gcore_ip?type=v6'],
+	}
+	for key,value in data.items():
+		print(key)
+		ips=''
+		for x in value:
+			get_info=requests.get(x,headers=headers).json()
+			get_cm=get_info['info']['CM']
+			get_cu=get_info['info']['CU']
+			get_ct=get_info['info']['CT']
+			get_info_list=get_cm+get_cu+get_ct
+			# print(get_info_list)
+			if get_info_list==[]:
+				break
+			for i in get_info_list:
+				proxy_ip=i['ip']
+				proxy_info=i['colo']
+				try:
+				    check_ip=ipaddress.IPv6Address(proxy_ip)
+				    proxy_ip=f'[{proxy_ip}]'
+				except Exception as e:
+					pass
+				ips=ips+f'{proxy_ip}:443#{proxy_info}\n'
+		print(ips)
+		with open(f'{key}-ip.txt','w') as file:
+			file.write(ips)
+			file.close()
 
-        for i in ip_info:
-            if is_json: # JSON 응답 처리
-                proxy_ip = i.get("ip")
-                proxy_info = i.get("colo")
-                if not proxy_ip or not proxy_info:
-                    print("Missing 'ip' or 'colo' in JSON response item.")
-                    continue
-            else: # 문자열 응답 처리
-                proxy_ip = i
-                proxy_info = "N/A" # colo 정보가 없을 경우 "N/A"로 설정
-
-            try:
-                if ipaddress.ip_address(proxy_ip).version == 6:
-                    proxy_ip = f"[{proxy_ip}]"
-            except ValueError:
-                print(f"Invalid IP address: {proxy_ip}")
-                continue
-
-            ips += f"{proxy_ip}:443#{proxy_info}\n"
-
-        if cdn_name:
-            output_path = Path(f"{cdn_name}-ip.txt")
-            output_path.write_text(ips, encoding="utf-8")
-            print(f"{cdn_name}의 IP를 {output_path}에 저장했습니다.")
-
-    except requests.exceptions.RequestException as e:
-        print(f"{cdn_name}의 IP를 가져오는 중 오류 발생: {e}")
-
-
-def get_cf_ip(url, headers):
-    """HostMonit에서 Cloudflare IP를 가져옵니다."""
-    types = ["v4", "v6"]
-    ips = ""
-    for x in types:
-        data = {"key": "iDetkOys"}
-        if x == "v6":
-            data["type"] = "v6"
-        try:
-            response = requests.post(url, data=json.dumps(data), headers=headers)
-            response.raise_for_status()
-            ip_info = response.json().get("info", [])
-
-            for i in ip_info:
-                proxy_ip = i.get("ip")
-                proxy_info = i.get("colo")
-                if not proxy_ip or not proxy_info:
-                    continue
-                try:
-                    if ipaddress.ip_address(proxy_ip).version == 6:
-                        proxy_ip = f"[{proxy_ip}]"
-                except ValueError:
-                    print(f"Invalid IP address: {proxy_ip}")
-                    continue
-                if x == "v6":
-                    ips += f"{proxy_ip}:443#{proxy_info} ipv6\n"
-                else:
-                    ips += f"{proxy_ip}:443#{proxy_info}\n"
-        except requests.exceptions.RequestException as e:
-            print(f"HostMonit IP 요청 오류: {e}")
-            continue
-        except json.JSONDecodeError as e:
-            print(f"JSON 디코딩 오류: {e}")
-            continue
-
-    print(ips)
-
-    is_tls = ["443", "80"]
-    for port in is_tls:
-        if port == "443":
-            output_path = Path("cloudflare-ip1.txt")
-            output_path.write_text(ips, encoding="utf-8")
-        else:
-            ports = ["80", "2052", "8080", "2082", "8880"]
-            new_ips = ips.replace(":443", f":{random.choice(ports)}")
-            output_path = Path(f"cloudflare-ip1-notls-{port}.txt")
-            output_path.write_text(new_ips, encoding="utf-8")
-            print(f"cloudflare notls {port} 포트 파일을 {output_path}에 저장했습니다.")
-
-
-def main():
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
-        "referer": "https://stock.hostmonit.com",
-        "access-control-allow-origin": "https://stock.hostmonit.com",
-        "origin": "https://stock.hostmonit.com",
-        "content-type": "application/json",
-    }
-    cdn_data = {
-        "cloudflare": [
-            "https://www.182682.xyz/api/cf2dns/get_cloudflare_ip?type=v4",
-            "https://www.182682.xyz/api/cf2dns/get_cloudflare_ip?type=v6",
-        ]
-    }
-    hostmonit_url = "https://api.hostmonit.com/get_optimization_ip"
-
-    for cdn_name, urls in cdn_data.items():
-        for url in urls:
-            data = {}
-            if "v6" in url:
-                data["type"] = "v6"
-            get_ip(url, data=data, headers=headers, cdn_name=cdn_name)
-
-    get_cf_ip(hostmonit_url, headers)
-
-if __name__ == "__main__":
-    main()
+def get_cf_ip():
+	url='https://api.hostmonit.com/get_optimization_ip'
+	types=['v4','v6']
+	ips=''
+	for x in types:
+		data={'key': 'iDetkOys'}
+		headers['referer']='https://stock.hostmonit.com'
+		headers['access-control-allow-origin']='https://stock.hostmonit.com'
+		headers['origin']='https://stock.hostmonit.com'
+		headers['content-type']='application/json'
+		if x=='v6':
+			data['type']='v6'
+		ip_info=requests.post(url,data=json.dumps(data),headers=headers).json()['info']
+		# print(ip_info)
+		for i in ip_info:
+			proxy_ip=i['ip']
+			proxy_info=i['colo']
+			try:
+			    check_ip=ipaddress.IPv6Address(proxy_ip)
+			    proxy_ip=f'[{proxy_ip}]'
+			except Exception as e:
+				pass
+			if x=='v6':
+				ips=ips+f'{proxy_ip}:443#{proxy_info} ipv6\n'
+			else:
+				ips=ips+f'{proxy_ip}:443#{proxy_info}\n'
+		print(ips)
+		is_tls=['443','80']
+		for x in is_tls:
+			if x=='443':
+				with open('cloudflare-ip1.txt','w') as file:
+					file.write(ips)
+			else:
+				ports=['80','2052','8080','2082','8880']
+				news_ips=ips.replace(':443',f':{random.choice(ports)}')
+				with open('cloudflare-ip1-notls.txt','w') as file:
+					file.write(news_ips)
+					file.close()
+		
+all_cdn()
+get_cf_ip()
