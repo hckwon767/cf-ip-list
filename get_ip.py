@@ -10,19 +10,33 @@ def get_ip(url, key="", data={}, headers={}, cdn_name=""):
     try:
         response = requests.post(url, data=json.dumps(data), headers=headers)
         response.raise_for_status()  # 2xx 상태 코드가 아닌 경우 예외 발생
-        ip_info = response.json().get("info", []) # "info" 키가 없는 경우 빈 리스트 반환
+
+        try:
+            ip_info = response.json().get("info", [])  # JSON으로 파싱 시도
+            is_json = True
+        except json.JSONDecodeError:
+            ip_info = response.text.strip().split('\n') # JSON 파싱 실패 시 문자열 분리
+            is_json = False
+            print("JSON decoding failed. Treating response as plain text.")
 
         for i in ip_info:
-            proxy_ip = i.get("ip")
-            proxy_info = i.get("colo")
-            if not proxy_ip or not proxy_info: #ip나 colo가 없을경우 continue
-                continue
+            if is_json: # JSON 응답 처리
+                proxy_ip = i.get("ip")
+                proxy_info = i.get("colo")
+                if not proxy_ip or not proxy_info:
+                    print("Missing 'ip' or 'colo' in JSON response item.")
+                    continue
+            else: # 문자열 응답 처리
+                proxy_ip = i
+                proxy_info = "N/A" # colo 정보가 없을 경우 "N/A"로 설정
+
             try:
                 if ipaddress.ip_address(proxy_ip).version == 6:
                     proxy_ip = f"[{proxy_ip}]"
             except ValueError:
                 print(f"Invalid IP address: {proxy_ip}")
                 continue
+
             ips += f"{proxy_ip}:443#{proxy_info}\n"
 
         if cdn_name:
@@ -32,14 +46,10 @@ def get_ip(url, key="", data={}, headers={}, cdn_name=""):
 
     except requests.exceptions.RequestException as e:
         print(f"{cdn_name}의 IP를 가져오는 중 오류 발생: {e}")
-    except json.JSONDecodeError as e:
-        print(f"JSON 디코딩 오류: {e}")
-        print(f"Response text: {response.text}")
-        print(f"Response status code: {response.status_code}")
 
 
 def get_cf_ip(url, headers):
-    """HostMonit에서 Cloudflare IP를 가져옵니다 (기존 로직 유지)."""
+    """HostMonit에서 Cloudflare IP를 가져옵니다."""
     types = ["v4", "v6"]
     ips = ""
     for x in types:
@@ -50,30 +60,28 @@ def get_cf_ip(url, headers):
             response = requests.post(url, data=json.dumps(data), headers=headers)
             response.raise_for_status()
             ip_info = response.json().get("info", [])
+
+            for i in ip_info:
+                proxy_ip = i.get("ip")
+                proxy_info = i.get("colo")
+                if not proxy_ip or not proxy_info:
+                    continue
+                try:
+                    if ipaddress.ip_address(proxy_ip).version == 6:
+                        proxy_ip = f"[{proxy_ip}]"
+                except ValueError:
+                    print(f"Invalid IP address: {proxy_ip}")
+                    continue
+                if x == "v6":
+                    ips += f"{proxy_ip}:443#{proxy_info} ipv6\n"
+                else:
+                    ips += f"{proxy_ip}:443#{proxy_info}\n"
         except requests.exceptions.RequestException as e:
             print(f"HostMonit IP 요청 오류: {e}")
-            continue # 다음 타입으로 진행
+            continue
         except json.JSONDecodeError as e:
             print(f"JSON 디코딩 오류: {e}")
-            print(f"Response text: {response.text}")
-            print(f"Response status code: {response.status_code}")
             continue
-
-        for i in ip_info:
-            proxy_ip = i.get("ip")
-            proxy_info = i.get("colo")
-            if not proxy_ip or not proxy_info:
-                continue
-            try:
-                if ipaddress.ip_address(proxy_ip).version == 6:
-                    proxy_ip = f"[{proxy_ip}]"
-            except ValueError:
-                print(f"Invalid IP address: {proxy_ip}")
-                continue
-            if x == "v6":
-                ips += f"{proxy_ip}:443#{proxy_info} ipv6\n"
-            else:
-                ips += f"{proxy_ip}:443#{proxy_info}\n"
 
     print(ips)
 
