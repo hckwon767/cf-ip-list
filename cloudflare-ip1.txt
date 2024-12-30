@@ -1,30 +1,30 @@
-172.67.85.165:443#Default
-172.67.196.65:443#Default
-162.159.251.195:443#Default
-172.67.167.75:443#Default
-172.67.58.208:443#Default
-172.64.109.150:443#NRT
-172.67.110.171:443#NRT
-172.67.245.46:443#FRA
-104.20.21.186:443#HKG
-104.20.20.91:443#HKG
-172.67.133.127:443#LHR
-172.67.219.26:443#LHR
-198.41.214.193:443#SJC
-172.64.90.227:443#SJC
-172.64.207.223:443#SJC
-[2606:4700:8ded:cf70:dfd6:abc0:eeec:67d1]:443#Default ipv6
-[2606:4700:90c7:150b:f86d:d3a1:acf:1bae]:443#Default ipv6
-[2606:4700:90c7:4449:eafe:aab0:d1ef:7a5]:443#Default ipv6
-[2606:4700:8ded:5302:8b36:cac4:669b:3ae6]:443#Default ipv6
-[2606:4700:90c7:1281:cb23:9ecc:d8cd:4034]:443#Default ipv6
-[2606:4700:8ded:cf70:dfd6:abc0:eeec:67d1]:443#Default ipv6
-[2606:4700:90c7:150b:f86d:d3a1:acf:1bae]:443#Default ipv6
-[2606:4700:90c7:4449:eafe:aab0:d1ef:7a5]:443#Default ipv6
-[2606:4700:8ded:5302:8b36:cac4:669b:3ae6]:443#Default ipv6
-[2606:4700:90c7:1281:cb23:9ecc:d8cd:4034]:443#Default ipv6
-[2606:4700:8ded:cf70:dfd6:abc0:eeec:67d1]:443#Default ipv6
-[2606:4700:90c7:150b:f86d:d3a1:acf:1bae]:443#Default ipv6
-[2606:4700:90c7:4449:eafe:aab0:d1ef:7a5]:443#Default ipv6
-[2606:4700:8ded:5302:8b36:cac4:669b:3ae6]:443#Default ipv6
-[2606:4700:90c7:1281:cb23:9ecc:d8cd:4034]:443#Default ipv6
+172.67.120.133:443#Default
+190.93.246.53:443#Default
+172.67.216.144:443#Default
+172.67.185.237:443#Default
+190.93.247.89:443#Default
+172.67.225.248:443#FRA
+104.20.230.220:443#LAX
+104.17.242.34:443#SJC
+172.67.65.181:443#NRT
+172.67.65.0:443#HKG
+172.64.166.177:443#SJC
+104.16.0.59:443#SJC
+172.67.141.8:443#LHR
+172.67.23.223:443#HKG
+172.67.163.115:443#LHR
+[2606:4700:90dd:3766:f39a:b39:a062:baab]:443#Default ipv6
+[2606:4700:139:a41f:5746:796d:46e:dab3]:443#Default ipv6
+[2606:4700:90dd:d4df:be1a:d967:b689:e7d2]:443#Default ipv6
+[2606:4700:90dd:8349:b75f:25cc:1aa:b2c]:443#Default ipv6
+[2606:4700:90dd:7d61:7c3c:d055:88ed:c3c5]:443#Default ipv6
+[2606:4700:90dd:3766:f39a:b39:a062:baab]:443#Default ipv6
+[2606:4700:139:a41f:5746:796d:46e:dab3]:443#Default ipv6
+[2606:4700:90dd:d4df:be1a:d967:b689:e7d2]:443#Default ipv6
+[2606:4700:90dd:8349:b75f:25cc:1aa:b2c]:443#Default ipv6
+[2606:4700:90dd:7d61:7c3c:d055:88ed:c3c5]:443#Default ipv6
+[2606:4700:90dd:3766:f39a:b39:a062:baab]:443#Default ipv6
+[2606:4700:139:a41f:5746:796d:46e:dab3]:443#Default ipv6
+[2606:4700:90dd:d4df:be1a:d967:b689:e7d2]:443#Default ipv6
+[2606:4700:90dd:8349:b75f:25cc:1aa:b2c]:443#Default ipv6
+[2606:4700:90dd:7d61:7c3c:d055:88ed:c3c5]:443#Default ipv6
