@@ -1,30 +1,30 @@
-172.67.94.22:80#Default
-172.64.202.245:80#Default
-172.67.105.16:80#Default
-172.67.198.14:80#Default
-141.101.121.136:80#Default
-172.67.156.176:80#FRA
-172.67.165.133:80#FRA
-141.101.121.126:80#NRT
-172.67.100.211:80#NRT
+172.67.125.140:80#Default
+172.64.130.124:80#Default
+172.67.78.149:80#Default
+141.101.113.125:80#Default
+172.64.131.114:80#Default
 172.67.175.9:80#FRA
-172.67.243.65:80#LHR
-172.67.241.93:80#LHR
-172.64.96.189:80#MIA
-104.19.190.214:80#SJC
-190.93.246.21:80#SJC
-[2606:4700:8cab:daa7:2df4:f2f1:790:408c]:80#Default ipv6
-[2606:4700:8cab:871f:ab5:5d20:e4b1:e165]:80#Default ipv6
-[2606:4700:8cab:8933:cc75:4ad2:7b97:bd14]:80#Default ipv6
-[2606:4700:8cab:cddd:1094:d991:f05c:35f4]:80#Default ipv6
-[2606:4700:8cab:599c:8544:26d3:69a2:4c1]:80#Default ipv6
-[2606:4700:8cab:daa7:2df4:f2f1:790:408c]:80#Default ipv6
-[2606:4700:8cab:871f:ab5:5d20:e4b1:e165]:80#Default ipv6
-[2606:4700:8cab:8933:cc75:4ad2:7b97:bd14]:80#Default ipv6
-[2606:4700:8cab:cddd:1094:d991:f05c:35f4]:80#Default ipv6
-[2606:4700:8cab:599c:8544:26d3:69a2:4c1]:80#Default ipv6
-[2606:4700:8cab:daa7:2df4:f2f1:790:408c]:80#Default ipv6
-[2606:4700:8cab:871f:ab5:5d20:e4b1:e165]:80#Default ipv6
-[2606:4700:8cab:8933:cc75:4ad2:7b97:bd14]:80#Default ipv6
-[2606:4700:8cab:cddd:1094:d991:f05c:35f4]:80#Default ipv6
-[2606:4700:8cab:599c:8544:26d3:69a2:4c1]:80#Default ipv6
+172.67.37.209:80#NRT
+172.67.255.42:80#FRA
+172.64.167.76:80#FRA
+172.67.232.185:80#FRA
+172.64.160.182:80#MIA
+172.67.165.175:80#LHR
+172.67.246.61:80#LHR
+172.67.60.166:80#IAD
+172.67.180.207:80#LHR
+[2606:4700:9ae0:a32a:a6cc:d400:6ddf:1dbb]:80#Default ipv6
+[2606:4700:9ae0:894b:15e4:19b:a911:af]:80#Default ipv6
+[2606:4700:8d90:4d45:e50f:2052:7cb1:405c]:80#Default ipv6
+[2606:4700:8d90:bff4:b6ca:d3be:196d:77e]:80#Default ipv6
+[2606:4700:9ae0:f7c:651d:5a10:2345:591c]:80#Default ipv6
+[2606:4700:9ae0:a32a:a6cc:d400:6ddf:1dbb]:80#Default ipv6
+[2606:4700:9ae0:894b:15e4:19b:a911:af]:80#Default ipv6
+[2606:4700:8d90:4d45:e50f:2052:7cb1:405c]:80#Default ipv6
+[2606:4700:8d90:bff4:b6ca:d3be:196d:77e]:80#Default ipv6
+[2606:4700:9ae0:f7c:651d:5a10:2345:591c]:80#Default ipv6
+[2606:4700:9ae0:a32a:a6cc:d400:6ddf:1dbb]:80#Default ipv6
+[2606:4700:9ae0:894b:15e4:19b:a911:af]:80#Default ipv6
+[2606:4700:8d90:4d45:e50f:2052:7cb1:405c]:80#Default ipv6
+[2606:4700:8d90:bff4:b6ca:d3be:196d:77e]:80#Default ipv6
+[2606:4700:9ae0:f7c:651d:5a10:2345:591c]:80#Default ipv6
